@@ -8,7 +8,7 @@ do {
 		fatalError("Input not found")
 	}
 	let inputString = try String(contentsOf: url)
-	input = inputString.lines.split { $0 == "" }.compactMap {Array($0)}.map { $0.joined(separator: " ")}
+	input = inputString.lines.split {$0 == ""}.compactMap {Array($0)}.map {$0.joined(separator: " ")}
 
 } catch {
 	print(error.localizedDescription)
