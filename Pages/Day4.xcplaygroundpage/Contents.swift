@@ -33,32 +33,32 @@ struct Passport {
 	}
 	var birthYearIsValid : Bool {
 		let birthYear = fields["byr", default: ""]
-		return birthYear.count == 4 && (Int(birthYear) ?? 0 >= 1920) && (Int(birthYear) ?? 0 <= 2002)
+		return birthYear.count == 4 && 1920...2002 ~= (Int(birthYear) ?? 0)
 	}
 	var issueYearIsValid: Bool {
 		let issueYear = fields["iyr", default: ""]
-		return issueYear.count == 4 && (Int(issueYear) ?? 0 >= 2010) && (Int(issueYear) ?? 0 <= 2020)
+		return issueYear.count == 4 && 2010...2020 ~= (Int(issueYear) ?? 0)
 	}
 
 	var expirationYearIsValid: Bool {
 		let expirationYear = fields["eyr", default: ""]
-		return expirationYear.count == 4 && (Int(expirationYear) ?? 0 >= 2020) && (Int(expirationYear) ?? 0 <= 2030)
+		return expirationYear.count == 4 && 2020...2030 ~= (Int(expirationYear) ?? 0)
 	}
 
 
 	var heightIsValid: Bool {
 		let height = fields["hgt", default: ""]
 		if height.hasSuffix("cm") {
-			return (Int(height.prefix(3)) ?? 0) >= 150 && (Int(height.prefix(3)) ?? 0) <= 193
+			return 150...193 ~= (Int(height.prefix(3)) ?? 0)
 		} else if height.hasSuffix("in") {
-			return (Int(height.prefix(2)) ?? 0) >= 59 && (Int(height.prefix(2)) ?? 0) <= 76
+			return 59...76 ~= (Int(height.prefix(2)) ?? 0)
 		}
 		return false
 	}
 
 	var hairColorIsValid: Bool {
 		let hairColor = fields["hcl", default: ""]
-		return hairColor.matches(regex: "^#[abcdef0123456789]{6}$") //"^#(?:[abcdef]{6})|#(?:[\\d]{6})$
+		return hairColor.matches(regex: "^#[abcdef0123456789]{6}$")
 	}
 
 	var eyeColorIsValid: Bool {
