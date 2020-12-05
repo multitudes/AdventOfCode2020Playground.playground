@@ -24,10 +24,10 @@ struct BoardingPass {
 			self.row = row
 			self.column = column
 			self.seatID = self.row * 8 + self.column
-			//print(row,column,seatID)
 		}
 	}
 }
+
 extension String {
 	mutating func replace(_ search: String, with replacement: String) {
 		self = self.replacingOccurrences(of: search, with: replacement)
