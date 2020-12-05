@@ -15,7 +15,7 @@ struct BoardingPass {
 	var column = 0
 	public var seatID = 0
 	var decoding: [(String,String)] = [("F","0"),("B","1"),("R","1"),("L","0")]
-	init(binarySpace: String) {
+	init(_ binarySpace: String) {
 		var binString = binarySpace
 		decoding.map { binString.replace($0.0, with: $0.1)  }
 		//print(binString)
@@ -33,7 +33,7 @@ extension String {
 		self = self.replacingOccurrences(of: search, with: replacement)
 	}
 }
-let testInput = BoardingPass(binarySpace: binSpace)
+let testInput = BoardingPass(binSpace)
 testInput.row
 testInput.column
 testInput.seatID
@@ -47,20 +47,18 @@ do {
 	input = inputString.components(separatedBy: .newlines)
 	input.removeAll { $0.isEmpty }
 }
+let seats = input.map {BoardingPass($0).seatID}
+let solution1 = seats.reduce(0) {max($0, $1)}
+print("solution part 1 is \(solution1)")
 
-let solution = input.map {BoardingPass(binarySpace: $0).seatID}.reduce(0) {max($0, $1)}
-print("solution part 1 is \(solution)")
-
-let seats = input.map {BoardingPass(binarySpace: $0).seatID}.sorted()
-//print(seats)
-
-if let startSeatMap = seats.first, let lastSeat = seats.last {
-	let contiguousSet = Set(startSeatMap...lastSeat)
-	if let solution2 = contiguousSet.subtracting(Set(seats)).first  {
-		print("solution part 2 is \(solution2)")
-	}  else {
-		print("No seats available for you!! ")
-	}
+let minSeatNumber = input.map {BoardingPass($0).seatID}.reduce(Int.max) {min($0, $1)}
+let maxSeatNumber = solution1
+let contiguousSet = Set(minSeatNumber...maxSeatNumber)
+if let solution2 = contiguousSet.subtracting(Set(seats)).first  {
+	print("solution part 2 is \(solution2)")
+}  else {
+	print("No seats available for you!! ")
 }
+
 
 //607
