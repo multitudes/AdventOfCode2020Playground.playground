@@ -18,12 +18,13 @@ struct BoardingPass {
 	init(binarySpace: String) {
 		var binString = binarySpace
 		decoding.map { binString.replace($0.0, with: $0.1)  }
-		print(binString)
+		//print(binString)
 		if let row = Int(binString.prefix(7), radix: 2),
 		   let column = Int(binString.suffix(3), radix: 2) {
 			self.row = row
 			self.column = column
 			self.seatID = self.row * 8 + self.column
+			//print(row,column,seatID)
 		}
 	}
 }
@@ -37,3 +38,29 @@ testInput.row
 testInput.column
 testInput.seatID
 
+var input: [String] = []
+do {
+	guard let url = Bundle.main.url(forResource: "input", withExtension: "txt") else {
+		fatalError("Input file not found")
+	}
+	let inputString = try String(contentsOf: url)
+	input = inputString.components(separatedBy: .newlines)
+	input.removeAll { $0.isEmpty }
+}
+
+let solution = input.map {BoardingPass(binarySpace: $0).seatID}.reduce(0) {max($0, $1)}
+print("solution part 1 is \(solution)")
+
+let seats = input.map {BoardingPass(binarySpace: $0).seatID}.sorted()
+//print(seats)
+
+if let startSeatMap = seats.first, let lastSeat = seats.last {
+	let contiguousSet = Set(startSeatMap...lastSeat)
+	if let solution2 = contiguousSet.subtracting(Set(seats)).first  {
+		print("solution part 2 is \(solution2)")
+	}  else {
+		print("No seats available for you!! ")
+	}
+}
+
+//607
