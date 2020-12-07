@@ -48,7 +48,8 @@ rulesDict.keys.forEach { key in
 
 print(solution.count) // 161
 
-rulesDict.keys.reduce(0) { count, key in
+// another way
+let solutionCount = rulesDict.keys.reduce(0) { count, key in
 	if key != "shiny gold" && containsRecursively(bag: key, in: rulesDict) == true { return count + 1
 	} else { return count }
 }
