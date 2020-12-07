@@ -40,6 +40,22 @@ public extension String {
 		return nil
 	}
 
+	func getTrimmedCapturedGroupsFrom(regexPattern: String)-> [String]? {
+		let text = self
+		let regex = try? NSRegularExpression(pattern: regexPattern)
+
+		let match = regex?.firstMatch(in: text, range: NSRange(text.startIndex..., in: text))
+
+		if let match = match {
+			return (0..<match.numberOfRanges).compactMap {
+				if let range = Range(match.range(at: $0), in: text) {
+					return $0 > 0 ? String(text[range]).trimmingCharacters(in: .whitespaces) : nil
+				}
+				return nil
+			}
+		}
+		return nil
+	}
 	func matches(regex: String, options: NSRegularExpression.Options = []) -> Bool {
 			do {
 				let regex = try NSRegularExpression(pattern: regex, options: options)

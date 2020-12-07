@@ -6,23 +6,18 @@ import Foundation
 
 //	--- Day 7: Handy Haversacks ---
 
-//guard let url = Bundle.main.url(forResource: "day7-example", withExtension: "txt") else {fatalError()}
 guard let url = Bundle.main.url(forResource: "input", withExtension: "txt") else {fatalError()}
-//guard let url = Bundle.main.url(forResource: "day7-Part2-example", withExtension: "txt") else {fatalError()}
-
 guard let input = try? String(contentsOf: url) else {fatalError()}
-
 var rules = input.lines.compactMap {$0.trimmingCharacters(in: .punctuationCharacters)}
-
 var rulesDict: [String: [(numberOfBags:Int, bagType: String)]] = [:]
 rules.forEach {
-	if let groups = $0.getCapturedGroupsFrom(regexPattern:"([a-z ]+)bags? contain (.+)") {
-		let bagRule = groups[0].trimmingCharacters(in: .whitespaces)
-		let contents = groups[1].split(separator: ",").map {String($0).trimmingCharacters(in: .whitespaces)}
-		for content in contents {
-			if let data = content.getCapturedGroupsFrom(regexPattern:"(\\d) (\\w+ \\w+) bags?") {
+	if let groups = $0.getTrimmedCapturedGroupsFrom(regexPattern:"([a-z ]+)bags? contain (.+)") {
+		let key = groups[0]
+		let contents = groups[1].split(separator: ",").map {String($0)}
+		contents.forEach { content in
+			if let data = content.getTrimmedCapturedGroupsFrom(regexPattern:"(\\d) (\\w+ \\w+) bags?") {
 				let dataTuple: (numberOfBags:Int, bagType: String) = (numberOfBags: Int(data[0]) ?? 0, bagType: data[1])
-				rulesDict[bagRule, default: []] += [dataTuple]
+				rulesDict[key, default: []] += [dataTuple]
 			}
 		}
 	}
@@ -30,11 +25,9 @@ rules.forEach {
 
 var cache = [String:Bool]()
 func containsRecursively(bag: String, in dict: [String: [(numberOfBags: Int, bagType: String)]]) -> Bool {
-
 	if bag == "shiny gold" {return true}
 	if let result = cache[bag] {return result}
 	let bags = dict[bag, default: []]
-
 	for bag in bags {
 		if containsRecursively(bag: bag.bagType, in: dict) == true {
 			return true
@@ -45,14 +38,20 @@ func containsRecursively(bag: String, in dict: [String: [(numberOfBags: Int, bag
 }
 
 var solution: [String] = []
-for key in rulesDict.keys {
-	if key == "shiny gold" { continue }
-	if containsRecursively(bag: key, in: rulesDict) == true {
-		solution.append(key)
+rulesDict.keys.forEach { key in
+	if key != "shiny gold" {
+		if containsRecursively(bag: key, in: rulesDict) == true {
+			solution.append(key)
+		}
 	}
 }
-print(solution)
+
 print(solution.count) // 161
+
+rulesDict.keys.reduce(0) { count, key in
+	if key != "shiny gold" && containsRecursively(bag: key, in: rulesDict) == true { return count + 1
+	} else { return count }
+}
 
 var shinyCache = [String:Int]()
 
