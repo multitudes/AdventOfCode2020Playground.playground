@@ -2,8 +2,9 @@
 
 import Foundation
 
-var str = "Hello, playground"
-
 //: [Next](@next)
-let a = Range(NSRange())!
-print(a)
+
+
+// --- Day 8: Handheld Halting ---
+
+
