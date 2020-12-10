@@ -7,9 +7,9 @@ import Foundation
 
 guard let url = Bundle.main.url(forResource: "input", withExtension: "txt") else {fatalError()}
 //guard let url = Bundle.main.url(forResource: "day9-example", withExtension: "txt") else {fatalError()}
-guard let inputLines = try? String(contentsOf: url).lines.compactMap(Int.init) else {fatalError()}
+guard let input = try? String(contentsOf: url).lines.compactMap(Int.init) else {fatalError()}
 
-var input = inputLines
+//var input = inputLines
 let preamble = 25; var workingQueue = input.prefix(preamble)
 var runningIndex = preamble; let count = input.count
 while runningIndex < count {
