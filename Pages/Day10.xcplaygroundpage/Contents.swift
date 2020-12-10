@@ -43,9 +43,8 @@ while true {
 		}
 		continue
 	}
-	jolts[3, default: 0] += 1
-	let jolts3 = jolts[3, default: 0]
 	let jolts1 = jolts[1, default: 0]
+	let jolts3 = jolts[3, default: 0] + 1
 
 	let solution = jolts1 * jolts3 //1904
 	let solution2 = accumulator * (partial ?? 1) //10578455953408
