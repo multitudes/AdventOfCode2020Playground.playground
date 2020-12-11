@@ -10,11 +10,10 @@ var str = "Hello, playground"
 
 guard let url = Bundle.main.url(forResource: "day11-example", withExtension: "txt") else { fatalError() }
 //guard let url = Bundle.main.url(forResource: "input", withExtension: "txt") else { fatalError() }
-guard let input: [String] = try? String(contentsOf: url).replacingOccurrences(of: "L", with: "🆓")
-		.components(separatedBy: .whitespacesAndNewlines) else {fatalError()}
+guard let input: [String] = try? String(contentsOf: url).components(separatedBy: .whitespacesAndNewlines) else {fatalError()}
 
 enum SeatState: Character {
-	case occupied = "#", empty = "🆓", floor = ".", padding = " "
+	case occupied = "#", empty = "L", floor = ".", padding = " "
 	static func toggle(_ seatState: SeatState) -> SeatState {
 		if seatState == .occupied {return .empty }
 		if seatState == .empty {return .occupied }
@@ -70,10 +69,12 @@ func oneSeatingShuffle(_ seatMap: [[Character]], with currentSeat: SeatState ) -
 }
 
 var isSame = false
-var seatState = SeatState(rawValue: "🆓")!
+var seatState = SeatState(rawValue: "L")!
 var occupiedSeats = 0
 while isSame == false {
 	(seatMap, isSame, occupiedSeats) = oneSeatingShuffle(seatMap, with: seatState)
 	seatState = SeatState.toggle(seatState)
 }
 print("solution: ", occupiedSeats)
+
+
