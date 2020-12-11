@@ -48,5 +48,7 @@ while true {
 
 	let solution = jolts1 * jolts3 //1904
 	let solution2 = accumulator * (partial ?? 1) //10578455953408
+	print("Solution part 1: ", solution) //1904
+	print("Solution part 2: ", solution2) // 10578455953408
 	break
 }

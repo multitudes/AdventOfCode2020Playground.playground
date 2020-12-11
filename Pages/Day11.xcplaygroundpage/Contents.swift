@@ -6,3 +6,6 @@ var str = "Hello, playground"
 
 //: [Next](@next)
 
+
+//	--- Day 11: Seating System ---
+
