@@ -52,3 +52,4 @@ while true {
 	print("Solution part 2: ", solution2) // 10578455953408
 	break
 }
+

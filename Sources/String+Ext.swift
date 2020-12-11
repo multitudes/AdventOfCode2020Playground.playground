@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import CryptoKit
 
 public extension String.StringInterpolation {
 	mutating func appendInterpolation(_ number: Double, specifier: String){
@@ -73,4 +73,11 @@ public extension String {
 	subscript(idx: Int) -> String {
 		String(self[index(startIndex, offsetBy: idx)])
 	}
+
+	func sha256() -> String {
+		let data = Data(self.utf8)
+		let hashed = SHA256.hash(data: data)
+		return hashed.compactMap { String(format: "%02x", $0) }.joined()
+	}
+	
 }
