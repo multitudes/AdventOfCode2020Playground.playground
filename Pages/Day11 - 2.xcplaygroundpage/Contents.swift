@@ -21,9 +21,6 @@ enum SeatState: Character {
 	}
 }
 
-var isSame = false;	var seatState = SeatState.empty; var occupiedSeats = 0
-var seatMap:[[Character]] = []
-
 // create seatmap with padding
 func createSeatMapWithPadding() -> [[Character]]{
 	var seatMap = input.compactMap { string -> [Character]? in
@@ -39,7 +36,6 @@ func createSeatMapWithPadding() -> [[Character]]{
 	seatMap.append(padding)
 	return seatMap
 }
-
 
 func checkAdjacentsAreOccupied(row i: Int, col k: Int, partTwo: Bool ) -> Int {
 	var adjacents = 0
@@ -75,7 +71,6 @@ func oneSeatingShuffle(_ seatMap: [[Character]], with currentSeat: SeatState, pa
 	let maxColumns = seatMap[0].count; let maxRows = seatMap.count
 	var nextSeatMap = seatMap; var occupiedSeats = 0
 	var maxVisibleOccupiedSeats: Int = 4; if partTwo { maxVisibleOccupiedSeats = 5}
-	//print("= ======= part 2 ",maxVisibleOccupiedSeats )
 	for i in 1..<maxRows - 1 {
 		for k in 1..<maxColumns - 1 {
 			if seatMap[i][k] == SeatState.occupied.rawValue {occupiedSeats += 1 }
@@ -90,22 +85,24 @@ func oneSeatingShuffle(_ seatMap: [[Character]], with currentSeat: SeatState, pa
 	}
 	for map in nextSeatMap {
 		print(map.map { String($0)}.joined())}
-			print("same than last? ",seatMap == nextSeatMap, "occupiedSeats", occupiedSeats)
+			//print("same than last? ",seatMap == nextSeatMap, "occupiedSeats", occupiedSeats)
 	return (nextMap: nextSeatMap, isSameState: seatMap == nextSeatMap, occupiedSeats: occupiedSeats)
 }
 
+var isSame = false;	var seatState = SeatState.empty; var occupiedSeats = 0
+var seatMap:[[Character]] = createSeatMapWithPadding()
+
 // part 1 --
-func resetState() {
-	isSame = false;	seatState = SeatState.empty; occupiedSeats = 0; seatMap = createSeatMapWithPadding()
-}
-resetState()
 while isSame == false {
 	(seatMap, isSame, occupiedSeats) = oneSeatingShuffle(seatMap, with: seatState)
 	seatState = SeatState.toggle(seatState)
 }
 let solution1 = occupiedSeats
+
 // part two
-resetState()
+isSame = false;	seatState = SeatState.empty; occupiedSeats = 0
+seatMap = createSeatMapWithPadding()
+
 while isSame == false {
 	(seatMap, isSame, occupiedSeats) = oneSeatingShuffle(seatMap, with: seatState, partTwo: true)
 	seatState = SeatState.toggle(seatState)
