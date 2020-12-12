@@ -48,9 +48,7 @@ func createSeatMapWithPadding() -> [[Character]] {
 
 func checkAdjacentsAreOccupied(row i: Int, col k: Int, partTwo: Bool ) -> Int {
 	var adjacents = 0
-	let directions: [(x: Int, y: Int)] = [(x: -1,y: -1),(x: 0, y: -1),(x: 1,y: -1),
-										  (x: -1,y: 0),(x: 1,y: 0),(x: -1,y: 1),
-										  (x: 0, y: 1),(x: 1,y: 1)]
+	let directions: [(x: Int, y: Int)] = [(x: -1,y: -1),(x: 0, y: -1),(x: 1,y: -1),(x: -1,y: 0),(x: 1,y: 0),(x: -1,y: 1),(x: 0, y: 1),(x: 1,y: 1)]
 	for direction in directions {
 		var xOffset = direction.x; var yOffset = direction.y
 		var step = 0
@@ -95,8 +93,7 @@ var seatMap:[[Character]] = []
 SeatState.resetState()
 seatMap = createSeatMapWithPadding()
 while SeatState.isSame == false {
-	(seatMap, SeatState.isSame, SeatState.occupiedSeats) =
-		oneSeatingShuffle(seatMap, with: .seatState)
+	(seatMap, SeatState.isSame, SeatState.occupiedSeats) = oneSeatingShuffle(seatMap, with: .seatState)
 	SeatState.seatState = SeatState.toggle(.seatState)
 }
 let solution1 = SeatState.occupiedSeats
@@ -105,8 +102,7 @@ let solution1 = SeatState.occupiedSeats
 SeatState.resetState()
 seatMap = createSeatMapWithPadding()
 while SeatState.isSame == false {
-	(seatMap, SeatState.isSame, SeatState.occupiedSeats) =
-		oneSeatingShuffle(seatMap, with: .seatState, partTwo: true)
+	(seatMap, SeatState.isSame, SeatState.occupiedSeats) = oneSeatingShuffle(seatMap, with: .seatState, partTwo: true)
 	SeatState.seatState = .toggle(.seatState)
 }
 print("Solution part 1: ", solution1) // 2354
