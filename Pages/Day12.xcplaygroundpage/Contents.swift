@@ -1,12 +1,7 @@
-//: [Previous](@previous)
-
 import Foundation
 
-var str = "Hello, playground"
 
-//: [Next](@next)
-
-//	--- Day 11: Seating System ---
+//	--- Day 11:  ---
 
 guard let url = Bundle.main.url(forResource: "day11-example", withExtension: "txt") else { fatalError() }
 //guard let url = Bundle.main.url(forResource: "input", withExtension: "txt") else { fatalError() }
