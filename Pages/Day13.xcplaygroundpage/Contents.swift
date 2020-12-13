@@ -7,7 +7,7 @@ import Foundation
 guard let url = Bundle.main.url(forResource: "input", withExtension: "txt") else { fatalError() }
 guard let input: [String] = try? String(contentsOf: url).lines else {fatalError()}
 print(input)
-var earliest: Int = Int(input[0])!
+let earliest: Int = Int(input[0])!
 var next = earliest
 let scheduled: [Int] = input[1].split(separator: ",").compactMap {Int($0)}
 var departing: [Int] = []
@@ -23,7 +23,7 @@ while true {
 }
 
 // -- part two --
-var terminal = input[1].split(separator: ",")
+let terminal = input[1].split(separator: ",")
 var busses: [(number: Int, offset: Int)] =
 	terminal.map {String($0)}.enumerated()
 		.compactMap { (index, element) -> (number: Int, offset: Int)?  in
