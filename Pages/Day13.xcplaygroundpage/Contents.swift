@@ -33,13 +33,11 @@ var busses: [(number: Int, offset: Int)] =
 			else {return nil}
 	}
 
-func matching(scheduled: (number: Int, offset: Int)) -> Int {
-	let busNumber = scheduled.number
-	let offset = scheduled.offset
+func matching(bus: (number: Int, offset: Int)) -> Int {
 	while true {
-		if (time + offset) % busNumber == 0 {
+		if (time + bus.offset) % bus.number == 0 {
 			print("matched!", time  )
-			interval *= busNumber
+			interval *= bus.number
 			return time
 		}
 		time += interval
@@ -50,10 +48,9 @@ let first = busses.remove(at: 0)
 var time = 0 // the time my first bus is leaving
 var interval = first.number // the interval to check at first
 
-for bus in busses {
-	time = matching(scheduled: bus)
-}
-print("Solution part 2: ", time ) //408270049879073
+let solution2 = busses.reduce(time) { matching(bus: $1) }
+
+print("Solution part 2: ", solution2 ) //408270049879073
 
 
 
