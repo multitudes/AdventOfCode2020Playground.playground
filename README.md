@@ -23,7 +23,9 @@
 | ✅ [Day 9: Encoding Error](https://adventofcode.com/2020/day/9)|⭐️|⭐️|
 | ✅ [Day 10: Adapter Array](https://adventofcode.com/2020/day/10)|⭐️|⭐️|
 | ✅ [Day 11: Seating System](https://adventofcode.com/2020/day/11)|⭐️|⭐️|
-| ✅ [Day 12: Rain Risk](https://adventofcode.com/2020/day/12)|☔️|🌊|
+| ✅ [Day 12: Rain Risk](https://adventofcode.com/2020/day/12)|⭐️|⭐️|
+| ✅ [Day 13: Shuttle Search](https://adventofcode.com/2020/day/13)|⭐️|⭐️| 
+| ✅ [Day 14: Docking Data](https://adventofcode.com/2020/day/14)|⭐️|⭐️| 
 
 ## Preparing the environment
 
@@ -521,3 +523,181 @@ while true {
 }
 ```
 
+## Day 11
+ 
+ Today I used an Enum to store the seat state four cases, also I can toggle from .occupied to .empty which will be useful and makes the code more readable:
+ ```swift
+ enum SeatState: Character {
+	 case occupied = "#", empty = "L", floor = ".", padding = " "
+
+	 static var isSame = false;	static var seatState = SeatState.empty;
+	 static var occupiedSeats = 0;
+	 static func toggle(_ seatState: SeatState) -> SeatState {
+		 if seatState == .occupied {return .empty }
+		 if seatState == .empty {return .occupied }
+		 return seatState
+	 }
+	 static func resetState() {
+		 isSame = false;	seatState = SeatState.empty; occupiedSeats = 0;
+	 }
+ }
+ ```
+ To avoid overshooting the arrays of my seat map I put some padding around it. This function create my map from the input. I will need to create a seat map again for part two to start with the original state again, so this function has been uite useful
+ ```swift
+ func createSeatMapWithPadding() -> [[Character]] {
+	 var seatMap = input.compactMap { string -> [Character]? in
+		 if !string.isEmpty {
+			 let newString = " " + string + " "
+			 return Array(newString)
+		 }
+		 return nil
+	 }
+	 let inputColumns = seatMap[0].count
+	 let padding = Array(repeating: Character(" "), count: inputColumns)
+	 seatMap.insert(padding, at: 0)
+	 seatMap.append(padding)
+	 return seatMap
+ }
+ ```
+
+Part one and part two have two different ways to check for adjacent seats, this can be done in the same function. If the boolean `partTwo` is false then I check only at a depth of one and return straight thereafter, if not then I keep on looping until I find either an occupied seat a boundary or an empty seat!
+```swift
+func checkAdjacentsAreOccupied(row i: Int, col k: Int, partTwo: Bool ) -> Int {
+	var adjacents = 0
+	let directions: [(x: Int, y: Int)] = [(x: -1,y: -1),(x: 0, y: -1),(x: 1,y: -1),(x: -1,y: 0),(x: 1,y: 0),(x: -1,y: 1),(x: 0, y: 1),(x: 1,y: 1)]
+	for direction in directions {
+		var xOffset = direction.x; var yOffset = direction.y
+		var step = 0
+		while true {
+			step += 1
+			xOffset = step * direction.x ; yOffset = step * direction.y
+			if seatMap[i+yOffset][k+xOffset] == SeatState.padding.rawValue {break}
+			if seatMap[i+yOffset][k+xOffset] == SeatState.floor.rawValue {}
+			if seatMap[i+yOffset][k+xOffset] == SeatState.empty.rawValue {break}
+			if seatMap[i+yOffset][k+xOffset] == SeatState.occupied.rawValue {adjacents += 1; break}
+			if !partTwo { break}
+		}
+	}
+	return adjacents
+}
+```
+The next function is the core of the challenge. Create a new map and translate the states from looking for an empty seat to vacate the seats when they are too busy!
+```swift
+
+func oneSeatingShuffle(_ seatMap: [[Character]], with currentSeat: SeatState, partTwo: Bool = false ) ->  (nextMap: [[Character]], isSameState: Bool, occupiedSeats: Int) {
+	let maxColumns = seatMap[0].count; let maxRows = seatMap.count
+	var nextSeatMap = seatMap; var occupiedSeats = 0
+	var maxVisibleOccupiedSeats: Int = 4; if partTwo { maxVisibleOccupiedSeats = 5}
+
+	for i in 1..<maxRows - 1 {
+		for k in 1..<maxColumns - 1 {
+			if seatMap[i][k] == SeatState.occupied.rawValue {occupiedSeats += 1 }
+			if ". ".contains(seatMap[i][k]) {continue}
+			let adjacents = checkAdjacentsAreOccupied(row: i, col: k, partTwo: partTwo)
+			if currentSeat == SeatState.empty {
+				if adjacents == 0 {	nextSeatMap[i][k] = SeatState.occupied.rawValue }
+			} else if currentSeat == SeatState.occupied {
+				if adjacents >= maxVisibleOccupiedSeats  { nextSeatMap[i][k] = SeatState.empty.rawValue }
+			}
+		}
+	}
+	for map in nextSeatMap {
+		print(map.map { String($0)}.joined())}
+	return (nextMap: nextSeatMap, isSameState: seatMap == nextSeatMap, occupiedSeats: occupiedSeats)
+}
+```
+
+This is the challenge simplified! :)
+
+```swift
+var seatMap:[[Character]] = []
+
+// part 1 --
+SeatState.resetState()
+seatMap = createSeatMapWithPadding()
+while SeatState.isSame == false {
+	(seatMap, SeatState.isSame, SeatState.occupiedSeats) = oneSeatingShuffle(seatMap, with: .seatState)
+	SeatState.seatState = SeatState.toggle(.seatState)
+}
+let solution1 = SeatState.occupiedSeats
+
+// part 2 --
+SeatState.resetState()
+seatMap = createSeatMapWithPadding()
+while SeatState.isSame == false {
+	(seatMap, SeatState.isSame, SeatState.occupiedSeats) = oneSeatingShuffle(seatMap, with: .seatState, partTwo: true)
+	SeatState.seatState = .toggle(.seatState)
+}
+print("Solution part 1: ", solution1) // 2354
+print("Solution part 2: ", SeatState.occupiedSeats) //2072
+
+```
+
+## Day 12
+
+The ferry trip has been so far quite relaxing. 
+Much easier today, but rewriting the rules in part two makes for two different files, unless... I put them back together now?    
+Now got a bit long... but readable, maybe.
+The code is here: [playground day12](https://github.com/multitudes/AdventOfCode2020Playground.playground/blob/main/Pages/Day12.xcplaygroundpage/Contents.swift)
+
+The only thing which kinda made me think is that Xcode gives me a warning here:   
+`trajectory.map { runPartTwo($0.action, amount: $0.param )}` 
+because the result of `map` is unused. For playgrounds it is fine though? Of course! Playgrounds accept it because the result is displayed in the right column.  
+The correct way to write this in Xcode is with a `forEach`:  
+`trajectory.forEach { runPartTwo($0.action, amount: $0.param )}`
+
+## Day13
+
+This is the code for day13 - I had to think hard for part two, when the first match happens, at which interval will be repeated? getting that interval was key to a fast result..   
+however in my case brute force would have beaten me in (coding)speed!  I guess I love getting confused. It took me a while to realize that. For instance if there are two busses, the first leaving at intervals of 2 min and the second at intervals of three... the configuration will be repeated every 6 minutes! so when I have another bus leaving every 5 minutes I do not need to check every minute, only at every 6 min interval! and when I find that match, it will repeat every 30min etc.   
+I could calculate it very quickly. It would have taken hours of mac mini time otherwise!  
+Also interesting to observe, the puzzle works only for departures intervals which are prime numbers!   
+
+```swift
+// -- part one --
+var earliest: Int = Int(input[0])!
+var next = earliest
+let scheduled: [Int] = input[1].split(separator: ",").compactMap {Int($0)}
+var departing: [Int] = []
+
+while true {
+	departing = scheduled.filter {next % $0 == 0}
+	if !departing.isEmpty {
+		let myBus = departing.first!
+		let solution1 = (next - earliest) * myBus
+		print("Solution part 1: ", solution1 ) //222
+		break }
+	next += 1
+}
+
+// -- part two --
+var terminal = input[1].split(separator: ",")
+var busses: [(number: Int, offset: Int)] =
+	terminal.map {String($0)}.enumerated()
+		.compactMap { (index, element) -> (number: Int, offset: Int)?  in
+			if let number = Int(element) {
+				let offset = Int(index)
+				return (number: number, offset: offset)}
+			else {return nil}
+	}
+
+func matching(bus: (number: Int, offset: Int)) -> Int {
+	while true {
+		if (time + bus.offset) % bus.number == 0 {
+			print("matched!", time  )
+			interval *= bus.number
+			return time
+		}
+		time += interval
+	}
+}
+
+let first = busses.remove(at: 0)
+var time = 0 // the time my first bus is leaving
+var interval = first.number // the interval to check at first
+
+let solution2 = busses.reduce(time) { matching(bus: $1) }
+
+print("Solution part 2: ", solution2 ) //408270049879073
+```
+## Day14
