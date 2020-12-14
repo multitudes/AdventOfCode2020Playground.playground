@@ -18,7 +18,7 @@ public extension String.StringInterpolation {
 public extension String {
 
 	var lines: [String] {
-		components(separatedBy: .newlines)
+		components(separatedBy: .newlines).filter {$0 != "" }
 	}
 
 	var passportFields: [String] {
