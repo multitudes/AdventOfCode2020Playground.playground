@@ -715,5 +715,5 @@ The next day I read this article by Natascha Fadeeva and gave me some ideas :)
 ## Day15
 
 <p align="center">
-  <img src="/images/boarding2.gif" width="600"  title="boarding"></img>
+  <img src="/images/batshitCrazy.png" width="600"  title="boarding"></img>
 </p>
