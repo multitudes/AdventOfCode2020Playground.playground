@@ -2,8 +2,8 @@ import Foundation
 
 // --- Day 16: Ticket Translation ---
 
-guard let url = Bundle.main.url(forResource: "input", withExtension: "txt") else { fatalError()}
-//guard let url = Bundle.main.url(forResource: "Day16-example1", withExtension: "txt") else { fatalError()}
+//guard let url = Bundle.main.url(forResource: "input", withExtension: "txt") else { fatalError()}
+guard let url = Bundle.main.url(forResource: "Day16-example1", withExtension: "txt") else { fatalError()}
 guard let input = try? String(contentsOf: url).lines else {fatalError()}
 
 //conditions ["class: 1-3 or 5-7", "row: 6-11 or 33-44", "seat: 13-40 or 45-50"]
@@ -55,8 +55,15 @@ func returnNotValid(in myTicket: [Int]) -> Int {
 	return notValid.reduce(0,+)
 }
 
+var validTickets: [[Int]] = []
 var solution = 0
 nearbyTickets.forEach {
-	solution += returnNotValid(in: $0)
+	let notValid = returnNotValid(in: $0)
+	if notValid != 0 {
+		solution += returnNotValid(in: $0)
+	} else {
+		validTickets.append($0)
+	}
 }
 solution
+validTickets
