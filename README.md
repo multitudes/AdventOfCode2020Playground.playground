@@ -705,6 +705,7 @@ print("Solution part 2: ", solution2 ) //408270049879073
 ## Day14
 
 What I said on twitter: "This is bat shit crazy" and I mean it! 😅  
+(Better not to run part 2 on the Xcode playgrounds on the main page for now until I optimize it! 
 Part one was no problem but part two took 10 minutes on my 2018 Mac Mini i9 processor!   
 There is something I still do not know about operations in memory. Clearly creating binary strings from strings is expensive.
 I still do not know how to make it faster.  
