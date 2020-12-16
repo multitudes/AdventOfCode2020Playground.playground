@@ -1,0 +1,30 @@
+[(key: "arrival location", value: Set([11])), (key: "seat", value: Set([14])), (key: "route", value: Set([10])), (key: "arrival station", value: Set([2])), (key: "type", value: Set([17])), (key: "duration", value: Set([8])), (key: "zone", value: Set([12])), (key: "departure platform", value: Set([1])), (key: "departure location", value: Set([18])), (key: "departure time", value: Set([5])), (key: "departure track", value: Set([3])), (key: "departure station", value: Set([])), (key: "departure date", value: Set([0])), (key: "wagon", value: Set([15])), (key: "arrival platform", value: Set([16])), (key: "train", value: Set([6])), (key: "row", value: Set([4])), (key: "arrival track", value: Set([13])), (key: "price", value: Set([19]))]
+
+// 179,101,223,107,127,211,191,61,199,193,181,131,89,109,197,59,227,53,103,97
+
+(key: "departure date", value: Set([0])),
+(key: "departure platform", value: Set([1]))
+
+(key: "arrival station", value: Set([2]))
+
+(key: "departure track", value: Set([3]))
+
+(key: "row", value: Set([4]))
+
+(key: "departure time", value: Set([5])),
+
+(key: "train", value: Set([6])),
+(key: "duration", value: Set([8])),
+(key: "route", value: Set([10]))
+[(key: "arrival location", value: Set([11])),
+(key: "zone", value: Set([12])), (
+
+(key: "arrival track", value: Set([13]))
+(key: "seat", value: Set([14])
+(key: "wagon", value: Set([15])),
+(key: "arrival platform", value: Set([16]))
+(key: "type", value: Set([17])),
+(key: "departure location", value: Set([18]))
+
+(key: "price", value: Set([19]))]
+(key: "departure station", value: Set([]))
