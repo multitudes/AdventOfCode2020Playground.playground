@@ -6,9 +6,7 @@ import Foundation
 guard let url = Bundle.main.url(forResource: "Day17-example", withExtension: "txt") else { fatalError()}
 guard let input = try? String(contentsOf: url) else {fatalError()}
 
-struct Cube: Equatable, Hashable {
-	let x,y,z,w: Int
-}
+struct Cube: Equatable, Hashable {let x,y,z,w: Int}
 
 struct PocketDimension {
 	var actives : Set<Cube> = []
@@ -16,10 +14,10 @@ struct PocketDimension {
 	var nextActives : Set<Cube> = []
 	var nextInactives: Set<Cube> = []
 	static var cycles = 0
+
 	init(input: String) {
 		let bootSector = input.lines
 		for (yIndex, y) in bootSector.enumerated() {
-			print(y)
 			for (xIndex,x)  in y.enumerated() {
 				if x == "#" { actives.insert(Cube(x: xIndex, y: yIndex, z: 0, w: 0))} else {
 					inactives.insert(Cube(x: xIndex, y: yIndex, z: 0, w: 0)); continue}
@@ -51,12 +49,12 @@ struct PocketDimension {
 						for x in -1...1 {
 							// this is my current position so skip
 							if x == 0 && y == 0 && z == 0 && w == 0 { continue }
-							//create an imaginary cube as neighbour
+							// create a neighbour cube
 							let neighbour = Cube(x: (cube.x + x), y: (cube.y + y), z: (cube.z + z), w: (cube.w + w))
-							// if this position is not already active append inactive
+							// if this position is active count, if not active insert in inactives
 							if actives.contains(neighbour) {
 								count += 1
-								//if count > 3 {continue}?
+								continue
 							} else {
 								inactives.insert(neighbour)
 							}
@@ -75,12 +73,11 @@ struct PocketDimension {
 				for z in -1...1 {
 					for y in -1...1 {
 						for x in -1...1 {
-							//print("x y z ", x, y, z, "....................")
-							// this is my current position so skip
-							if x == 0 && y == 0 && z == 0 { continue }
-							//create an imaginary cube as neighbour
+								// this is my current position so skip
+							if x == 0 && y == 0 && z == 0 && w == 0{ continue }
+							//create a neighbour cube
 							let neighbour = Cube(x: (cube.x + x), y: (cube.y + y), z: (cube.z + z), w: (cube.w + w))
-							// if this position is not already active append inactive
+							// if this position is not active insert in next inactive
 							if actives.contains(neighbour) {
 								count += 1
 							} else {
@@ -111,7 +108,4 @@ boot.runCycle()
 boot.runCycle()
 boot.runCycle()
 boot.runCycle()
-print("Solution Part One : ",boot.actives.count)
-
-
-
+print("Solution Part Two : ",boot.actives.count)
