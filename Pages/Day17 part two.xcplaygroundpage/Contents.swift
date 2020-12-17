@@ -89,15 +89,12 @@ struct PocketDimension {
 			}
 			if count == 3 {nextActives.insert(cube)} else {nextInactives.insert(cube)}
 		}
-		actives = nextActives
-		nextActives = []
+		actives = nextActives; nextActives = []
 		inactives = nextInactives
 		nextInactives = []
 		Self.cycles += 1
 		print("---------------- cycle \(Self.cycles) -------------")
-		//printBootSector()
 	}
-
 }
 
 var boot = PocketDimension(input: input)

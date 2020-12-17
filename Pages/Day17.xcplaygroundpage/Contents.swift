@@ -8,10 +8,6 @@ guard let input = try? String(contentsOf: url) else {fatalError()}
 
 struct Cube: Equatable, Hashable {
 	let x,y,z: Int
-	static func ==(lhs: Cube, rhs: Cube) -> Bool {
-		return lhs.x == rhs.x && lhs.y == rhs.y && lhs.z == rhs.z
-	}
-
 }
 
 struct PocketDimension {
@@ -50,7 +46,6 @@ struct PocketDimension {
 			for z in -1...1 {
 				for y in -1...1 {
 					for x in -1...1 {
-						//print("x y z ", x, y, z, "....................")
 						// this is my current position so skip
 						if x == 0 && y == 0 && z == 0 { continue }
 						//create an imaginary cube as neighbour
@@ -74,7 +69,6 @@ struct PocketDimension {
 			for z in -1...1 {
 				for y in -1...1 {
 					for x in -1...1 {
-						//print("x y z ", x, y, z, "....................")
 						// this is my current position so skip
 						if x == 0 && y == 0 && z == 0 { continue }
 						//create an imaginary cube as neighbour
@@ -97,7 +91,6 @@ struct PocketDimension {
 		Self.cycles += 1
 		printBootSector()
 	}
-
 }
 
 var boot = PocketDimension(input: input)
