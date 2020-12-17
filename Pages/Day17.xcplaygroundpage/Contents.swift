@@ -103,6 +103,12 @@ struct PocketDimension {
 var boot = PocketDimension(input: input)
 print(boot.printBootSector())
 boot.runCycle()
+boot.runCycle()
+boot.runCycle()
+boot.runCycle()
+boot.runCycle()
+boot.runCycle()
+boot.actives.count
 //boot.getActiveCubes(in: boot.cubes)
 //boot.runCycle()
 //print(boot.cubes)
