@@ -79,12 +79,12 @@ struct PocketDimension {
 							// this is my current position so skip
 							if x == 0 && y == 0 && z == 0 { continue }
 							//create an imaginary cube as neighbour
-							let cube = Cube(x: (cube.x + x), y: (cube.y + y), z: (cube.z + z), w: (cube.w + w))
+							let neighbour = Cube(x: (cube.x + x), y: (cube.y + y), z: (cube.z + z), w: (cube.w + w))
 							// if this position is not already active append inactive
-							if actives.contains(cube) {
+							if actives.contains(neighbour) {
 								count += 1
 							} else {
-								nextInactives.insert(cube)
+								nextInactives.insert(neighbour)
 							}
 						}
 					}
