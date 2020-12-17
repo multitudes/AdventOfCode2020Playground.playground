@@ -14,7 +14,7 @@ let tickets = Array(input.split { $0 == "your ticket:"}[1])
 
 // [7, 1, 14]
 let myTicket = tickets[0].split(separator: ",").compactMap { Int($0)}
-print("myTicket",myTicket) // [7, 1, 14]
+print("myTicket",myTicket) // [7, 1, 14...]
 
 // [[7, 3, 47], [40, 4, 50], [55, 2, 20], [38, 6, 12]]
 let nearbyTickets = tickets.split { $0 == "nearby tickets:"}[1].map {$0.split(separator: ",").compactMap { Int($0)}}
