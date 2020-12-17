@@ -108,10 +108,7 @@ boot.runCycle()
 boot.runCycle()
 boot.runCycle()
 boot.runCycle()
-boot.actives.count
-//boot.getActiveCubes(in: boot.cubes)
-//boot.runCycle()
-//print(boot.cubes)
-//boot.getActiveCubes(in: boot.cubes)
+print("Solution Part One : "boot.actives.count)
+
 
 
