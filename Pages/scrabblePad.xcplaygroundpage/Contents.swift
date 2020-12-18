@@ -173,10 +173,12 @@ func compute(_ string: String) -> Int {
 }
 
 var expression = ["d", "d", "e"]
-expression.removeFirst(2)
+let express = expression[1...2]
 expression
 let str = "(5 * (4 - 2))"
 compute(str)
+
+
 
 let stringWithMathematicalOperation: String = "5 + 5 * 5" // Example
 let exp: NSExpression = NSExpression(format: stringWithMathematicalOperation)

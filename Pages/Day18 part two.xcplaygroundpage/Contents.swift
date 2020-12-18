@@ -3,7 +3,7 @@ import Foundation
 // --- Day 18: Conway Cubes ---
 
 //guard let url = Bundle.main.url(forResource: "input", withExtension: "txt") else { fatalError()}
-guard let url = Bundle.main.url(forResource: "Day18-example", withExtension: "txt") else { fatalError()}
+guard let url = Bundle.main.url(forResource: "Day18-example1", withExtension: "txt") else { fatalError()}
 guard let input = try? String(contentsOf: url).replacingOccurrences(of: " ", with: "").lines else {fatalError()}
 print(input)
 // ((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2
@@ -16,14 +16,27 @@ for line in input {
 print("solution = ", solution)
 
 func evaluate(_ expression: inout [String]) -> String {
-	print(expression)
+
 	var buffer: [String] = []
 	while !expression.isEmpty {
 		let token = expression.removeFirst()
 		print("token ", token, "-------- buffer ----- ", buffer)
 		if token == "(" {
 			print("recursion!", "evaluate ", expression )
-			buffer.append(evaluate(&expression))
+			var openParenthesis = 1
+			var lastOpenIndex = 0; var firstClosedIndex = 0
+			for (idx,elem) in expression.enumerated() {
+				print(idx,elem)
+				if elem == "(" {
+					openParenthesis += 1; lastOpenIndex = idx
+				} else if elem == ")" && openParenthesis > 0 {
+					firstClosedIndex = idx; break
+				} else {continue}
+			}
+			var subExpression: [String] = Array(expression[lastOpenIndex..<firstClosedIndex])
+			print("subExpression-----------------", subExpression)
+			//expression.removeSubrange([lastOpenIndex..<firstClosedIndex])
+			buffer.append(evaluate(&subExpression))
 			continue
 		}
 
@@ -42,11 +55,11 @@ func evaluate(_ expression: inout [String]) -> String {
 			buffer.append(evaluate(&expression))
 			continue
 		}
-		if token == ")"  {
-			// back from recursion
-			print("back from recursion ! with  ",   buffer.first!  )
-			return buffer.first!
-		}
+//		if token == ")"  {
+//			// back from recursion
+//			print("back from recursion ! with  ",   buffer.first!  )
+//			return buffer.first!
+//		}
 		if token != ")" || token != "(" || token != "*" {buffer.append(token)}
 	}
 	print(buffer)
