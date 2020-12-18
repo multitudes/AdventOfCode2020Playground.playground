@@ -29,7 +29,7 @@
 | ✅ [Day 15: Rambunctious Recitation](https://adventofcode.com/2020/day/15)|⭐️|⭐️| 
 | ✅ [Day 16: Ticket Translation](https://adventofcode.com/2020/day/16)|⭐️|⭐️| 
 | ✅ [Day 17: Conway Cubes](https://adventofcode.com/2020/day/17)|⭐️|⭐️| 
-| ✅ [Day 18: ](https://adventofcode.com/2020/day/18)|🌵|| 
+| ✅ [Day 18: Operation Order ](https://adventofcode.com/2020/day/18)|🌵|| 
 
 ## Preparing the environment
 
@@ -767,4 +767,18 @@ print("Solution part 2: ", last) // 1065
 
 ## Day 16
 
+This was as strange one. Part two was mostly spent creating a dictionary, then collecting data then inverting it , then sifting through..
+An interesting problem has been how to remove duplicates from a dictionary of arrays of Ints. I solved it and got the solution. Every ticket number has an index and that would match only one set of rules at the end.   
+Well, some match more than one set, this is why I started from the ones which have just one match and remove them from the rest of the solution. So at the end I get a neat dictionary where every index for a field of my ticket has only one set of rules left and a field name :)
 
+## Day 17
+Conway in 3D! and part two in 4D!  
+Restarted for the third time.  Losing brain cells along the way or I am not so concentrated today? 17 days of daily challenges showing its toll? 
+But the feeling of happiness completing this challenge cannot be overstated.  
+I was about to give up, but I found a way to use sets which is waaaay faster and I managed to get the example working. 😀
+
+Also turns out that having the right approach in part one made part two a breeze! 
+
+My solution today is too long for a screenshot :) Maybe I can find a better solution to find adjacent position one day,  but for now I just iterate. Also it is still quite fast using a set for active cubes and a set for inactive ones. Not bad. Also scalable to higher dimensions ;)
+
+## Day 18
