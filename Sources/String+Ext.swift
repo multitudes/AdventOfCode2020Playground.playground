@@ -17,10 +17,12 @@ public extension String.StringInterpolation {
 
 public extension String {
 
-	var lines: [String] {
+	var linesNotEmpty: [String] {
 		components(separatedBy: .newlines).filter {$0 != "" }
 	}
-
+	var lines: [String] {
+		components(separatedBy: .newlines)
+	}
 	var passportFields: [String] {
 		let lines = self.components(separatedBy: .newlines)
 		return lines.split { $0 == "" }.compactMap {Array($0)}.map { $0.joined(separator: " ")}
