@@ -62,13 +62,14 @@ func evaluate(_ expression: [String] ) -> String {
 			buffer.append(token)
 			print("token ", token, "-------- buffer ----- ", buffer)
 		}
+
 		if buffer.count == 3 {
 			print("computing \(buffer) ", buffer.joined())
 			let computed = compute(buffer.joined())
 			buffer = [computed]
 			print("result in buffer ",  buffer )
 		}
-
+		
 	}
 	while buffer.count > 3 {
 		print("buffer overflow! finishing computing buffer overflow! \(buffer) ", buffer.joined())

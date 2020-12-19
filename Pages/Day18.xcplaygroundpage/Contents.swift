@@ -2,8 +2,8 @@ import Foundation
 
 // --- Day 18: Conway Cubes ---
 
-//guard let url = Bundle.main.url(forResource: "input", withExtension: "txt") else { fatalError()}
-guard let url = Bundle.main.url(forResource: "Day18-example", withExtension: "txt") else { fatalError()}
+guard let url = Bundle.main.url(forResource: "input", withExtension: "txt") else { fatalError()}
+//guard let url = Bundle.main.url(forResource: "Day18-example", withExtension: "txt") else { fatalError()}
 guard let input = try? String(contentsOf: url).replacingOccurrences(of: " ", with: "").lines else {fatalError()}
 print(input)
 
@@ -55,15 +55,3 @@ func compute(_ string: String) -> String {
 	let exp: NSExpression = NSExpression(format: string)
 	return String(exp.expressionValue(with:nil, context: nil) as! Int)
 }
-
-let str = "(5 * (4 - 2))"
-compute(str)
-
-
-
-
-
-
-let stringWithMathematicalOperation: String = "5 + 5 * 5" // Example
-let exp: NSExpression = NSExpression(format: stringWithMathematicalOperation)
-let result: Int = exp.expressionValue(with:nil, context: nil) as! Int
