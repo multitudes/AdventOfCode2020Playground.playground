@@ -2,74 +2,84 @@ import Foundation
 
 // --- Day 18: Conway Cubes ---
 
-//guard let url = Bundle.main.url(forResource: "input", withExtension: "txt") else { fatalError()}
-guard let url = Bundle.main.url(forResource: "Day18-example1", withExtension: "txt") else { fatalError()}
+guard let url = Bundle.main.url(forResource: "input", withExtension: "txt") else { fatalError()}
+//guard let url = Bundle.main.url(forResource: "Day18-example7---", withExtension: "txt") else { fatalError()}
 guard let input = try? String(contentsOf: url).replacingOccurrences(of: " ", with: "").lines else {fatalError()}
 print(input)
-// ((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2
+// not 143056681397659 but 145575710203332
+//["1+(2*3)+(4*(5+6))"]
+
+//6 * ((5 * 3 * 2 + 9 * 4) * (8 * 8 + 2 * 3) * 5 * 8) * 2 + (4 + 9 * 5 * 5 + 8) * 4
+// 6*   (5*3*11*4)*8*10*3*5*8*(2+(13*5*13))*4
+// 38 016 000 * (847) *4
+// 38 016 000 * 3388
+// ((2+4*9)*(6+9*8+6)+6)+2+4*2
+//128 798 208 000
 var solution = 0
 for line in input {
 	print(line)
-	var expression = Array(line).map {String($0)}
-	solution += Int(evaluate(&expression))!
+	let expression = Array(line).map {String($0)}
+	solution += Int(evaluate(expression))!
 }
 print("solution = ", solution)
 
-func evaluate(_ expression: inout [String]) -> String {
-
-	var buffer: [String] = []
-	while !expression.isEmpty {
-		let token = expression.removeFirst()
-		print("token ", token, "-------- buffer ----- ", buffer)
+func evaluate(_ expression: [String] ) -> String {
+	let end = expression.count; var idx = 0; var buffer: [String] = []
+	while idx < end {
+		let token = expression[idx]; idx += 1
 		if token == "(" {
-			print("recursion!", "evaluate ", expression )
+			print("recursion! --------------" )
 			var openParenthesis = 1
-			var lastOpenIndex = 0; var firstClosedIndex = 0
-			for (idx,elem) in expression.enumerated() {
-				print(idx,elem)
-				if elem == "(" {
-					openParenthesis += 1; lastOpenIndex = idx
-				} else if elem == ")" && openParenthesis > 0 {
-					firstClosedIndex = idx; break
+			var firstClosedIndex = end
+			for i in idx..<end {
+				print(i,expression[i])
+				if expression[i] == "(" {
+					openParenthesis += 1
+				} else if expression[i] == ")" {
+					if openParenthesis == 1 { firstClosedIndex = i; break } else {
+						openParenthesis -= 1
+					}
 				} else {continue}
 			}
-			var subExpression: [String] = Array(expression[lastOpenIndex..<firstClosedIndex])
+			let subExpression: [String] = Array(expression[idx..<firstClosedIndex])
 			print("subExpression-----------------", subExpression)
-			//expression.removeSubrange([lastOpenIndex..<firstClosedIndex])
-			buffer.append(evaluate(&subExpression))
+			buffer.append(evaluate(subExpression))
+			idx += subExpression.count + 1
 			continue
+		}
+		if token == "*" {
+			print("-----------* ------------------------" )
+			buffer.append(token)
+			let subExpression: [String] = Array(expression[idx...])
+			print("subExpression-----------------", subExpression)
+			buffer.append(evaluate(subExpression))
+			idx += subExpression.count
+			continue
+		} else if token == "+" {
+			buffer.append(token)
+			print("token ", token, "-------- buffer ----- ", buffer)
+		} else {
+			buffer.append(token)
+			print("token ", token, "-------- buffer ----- ", buffer)
 		}
 
 		if buffer.count == 3 {
-			print("computing ", buffer.joined())
+			print("computing \(buffer) ", buffer.joined())
 			let computed = compute(buffer.joined())
 			buffer = [computed]
-			print("result in buffer ",  buffer, expression )
+			print("result in buffer ",  buffer )
 		}
-		if token == "*" {
-			if expression[0] == "(" {print("-----------*( ------------------------" )
-				expression.removeFirst()
-			}
-			buffer.append(token)
-			print("recursion!", "evaluate ", expression )
-			buffer.append(evaluate(&expression))
-			continue
-		}
-//		if token == ")"  {
-//			// back from recursion
-//			print("back from recursion ! with  ",   buffer.first!  )
-//			return buffer.first!
-//		}
-		if token != ")" || token != "(" || token != "*" {buffer.append(token)}
+
 	}
-	print(buffer)
-	if buffer.count == 3 {
-		print("computing ", buffer.joined())
-		let computed = compute(buffer.joined())
-		buffer = [computed]
-		print("result in buffer ",  buffer, expression )
+	while buffer.count > 3 {
+		print("buffer overflow! finishing computing buffer overflow! \(buffer) ", buffer.joined())
+		var newBuffer: [String] = []
+		newBuffer.append(evaluate(buffer))
+		buffer = newBuffer
 	}
-	return buffer[0]
+	print("finishing computing \(buffer) ", buffer.joined())
+	let computed = compute(buffer.joined())
+	return computed
 }
 
 func compute(_ string: String) -> String {
