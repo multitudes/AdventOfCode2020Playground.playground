@@ -13,9 +13,15 @@ print(messages)
 var rulesDict: [Int: String] = [:]
 
 for rule in rules {
-	if let regex = rule.getCapturedGroupsFrom(regexPattern: "(\\d+): ([\\w ]+)") {
-			var key = rule[0]
-			
-			//rulesDict[key] =
+	if let regex = rule.getCapturedGroupsFrom(regexPattern: "(\\d+): ([\\d ]+)$") {
+		var key = Int(regex[0])!
+		var expr = regex[1]
+		rulesDict[key] = expr
+	}
+	if let regex = rule.getCapturedGroupsFrom(regexPattern: "(\\d+): ([\\d ]+)$") {
+		var key = Int(regex[0])!
+		var expr = regex[1]
+		rulesDict[key] = expr
+	}
 }
-
+rulesDict.description
