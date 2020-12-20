@@ -58,6 +58,8 @@ public extension String {
 		}
 		return nil
 	}
+
+
 	func matches(regex: String, options: NSRegularExpression.Options = []) -> Bool {
 			do {
 				let regex = try NSRegularExpression(pattern: regex, options: options)

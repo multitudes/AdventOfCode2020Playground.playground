@@ -185,4 +185,5 @@ let stringWithMathematicalOperation: String = "5 + 5 * 5" // Example
 let exp: NSExpression = NSExpression(format: stringWithMathematicalOperation)
 let result: Int = exp.expressionValue(with:nil, context: nil) as! Int
 
-
+var s = "hello"
+s = "(" + s
