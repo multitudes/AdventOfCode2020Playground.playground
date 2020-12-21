@@ -907,4 +907,19 @@ print("Solution part one : ", count)
 
 ```
 
-```
+## Day19
+This is the winning regex. See the strategically positioned curly brackets ;) It results from RegexA{x,} plus RegexA{y} plus RegexB{y}  phewwww!!
+
+<p align="center">
+  <img src="/images/regex.png" width="600"  title="regex"></img>
+</p>
+
+Well to be fair that only one of the winning regexes because they are dynamically created. I iterate changing the values in the curly braces of course (just saying for completeness, even I know nobody would bother to check :)
+
+Quite a tough one, but regexes are phenomenal, I never realised they had so much power!   
+If I paste this regex in Lea Verou web page regex playground it works! 
+https://projects.verou.me/regexplained/
+And they are so fast! How do they accomplish this? 🤔
+
+
+https://projects.verou.me/regexplained/
