@@ -42,38 +42,18 @@ func createRegex(from ruleZero: String) -> String {
 
 var regexPattern = (rulesDict[42] ?? "")
 print(regexPattern)
-//while !regexPattern.allSatisfy({"ab()| ".contains($0)}) {
+while !regexPattern.allSatisfy({"ab()| ".contains($0)}) {
 regexPattern = createRegex(from: regexPattern)
-regexPattern = createRegex(from: regexPattern)
-regexPattern = createRegex(from: regexPattern)
-regexPattern = createRegex(from: regexPattern)
-regexPattern = createRegex(from: regexPattern)
-regexPattern = createRegex(from: regexPattern)
-regexPattern = createRegex(from: regexPattern)
-regexPattern = createRegex(from: regexPattern)
-regexPattern = createRegex(from: regexPattern)
-regexPattern = createRegex(from: regexPattern)
-//}
-print(regexPattern)
+}
 var regexPattern42First = regexPattern  + "{1,}"
 var regexPattern42Second = regexPattern  + "{x}"
 
 regexPattern = (rulesDict[31] ?? "")
-print(regexPattern)
-//while !regexPattern.allSatisfy({"ab()| ".contains($0)}) {
+while !regexPattern.allSatisfy({"ab()| ".contains($0)}) {
 regexPattern = createRegex(from: regexPattern)
-regexPattern = createRegex(from: regexPattern)
-regexPattern = createRegex(from: regexPattern)
-regexPattern = createRegex(from: regexPattern)
-regexPattern = createRegex(from: regexPattern)
-regexPattern = createRegex(from: regexPattern)
-regexPattern = createRegex(from: regexPattern)
-regexPattern = createRegex(from: regexPattern)
-regexPattern = createRegex(from: regexPattern)
-regexPattern = createRegex(from: regexPattern)
-//}
-print(regexPattern)
+}
 var regexPattern31 = regexPattern  + "{x}"
+
 regexPattern = regexPattern42First + regexPattern42Second + regexPattern31
 print(regexPattern)
 let regexPatternX = "^" + regexPattern.replacingOccurrences(of:" ", with: "") + "$"
@@ -100,5 +80,5 @@ for message in messages {
 		}
 	}
 }
-print("Solution part one : ", count)
+print("Solution part two : ", count)
 
