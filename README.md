@@ -30,9 +30,9 @@
 | ✅ [Day 16: Ticket Translation](https://adventofcode.com/2020/day/16)|⭐️|⭐️| 
 | ✅ [Day 17: Conway Cubes](https://adventofcode.com/2020/day/17)|⭐️|⭐️| 
 | ✅ [Day 18: Operation Order](https://adventofcode.com/2020/day/18)|⭐️|⭐️|
-| ✅ [Day 19: Monster Messages](https://adventofcode.com/2020/day/19)|⭐️|🌵|
-| ✅ [Day 20: ](https://adventofcode.com/2020/day/20)|🌵||
-| ✅ [Day 21: ](https://adventofcode.com/2020/day/21)|🌵||
+| ✅ [Day 19: Monster Messages](https://adventofcode.com/2020/day/19)|⭐️|⭐️|
+| ✅ [Day 20: Jurassic Jigsaw](https://adventofcode.com/2020/day/20)|🌵||
+| ✅ [Day 21: Allergen Assessment ](https://adventofcode.com/2020/day/21)|🌵||
 | ✅ [Day 22: ](https://adventofcode.com/2020/day/22)|🌵||
 | ✅ [Day 23: ](https://adventofcode.com/2020/day/23)|🌵||
 | ✅ [Day 24: ](https://adventofcode.com/2020/day/24)|🌵||
