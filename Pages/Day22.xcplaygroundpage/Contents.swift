@@ -1,6 +1,6 @@
 import Foundation
 
-// --- Day 21: Allergen Assessment ---
+// --- Day 22: Crab Combat ---
 
 //guard let url = Bundle.main.url(forResource: "input", withExtension: "txt") else { fatalError()}
 guard let url = Bundle.main.url(forResource: "Day21-example", withExtension: "txt") else {fatalError()}
