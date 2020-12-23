@@ -12,8 +12,11 @@ var input = inputFile.map { $0.split(separator: " ").map {String($0) }
 input.sort {$0.allergens.count < $1.allergens.count}
 
 //print(input.description)
+var myCanonicalDangerousIngredients: [(ingredient: String, allergen: String)] = []
 
 func removeEverywhere(ingredientFound: String, allergen: String) {
+	// Part 2! add allergen to the list
+	myCanonicalDangerousIngredients.append((ingredient: ingredientFound, allergen: allergen))
 	for j in 0..<input.count {
 		// when match found - 2 cases - both allergen and ingredient to be removed or
 		if input[j].ingredients.contains(ingredientFound)
@@ -73,4 +76,10 @@ let solutionPartOne = input.reduce(0) { $0 + $1.ingredients.count}
 
 print("Solution part one : ", solutionPartOne)
 
-
+print(myCanonicalDangerousIngredients)
+let solutionPart2 = myCanonicalDangerousIngredients.sorted {
+	$0.allergen < $1.allergen
+}
+let myCanonicalDangerousIngredientsList = solutionPart2.reduce("") {
+	$0 + "," + $1.ingredient
+}.dropFirst()
