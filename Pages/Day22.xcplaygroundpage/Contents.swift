@@ -2,8 +2,8 @@ import Foundation
 
 // --- Day 22: Crab Combat ---
 
-//guard let url = Bundle.main.url(forResource: "input", withExtension: "txt") else { fatalError()}
-guard let url = Bundle.main.url(forResource: "Day22-example", withExtension: "txt") else {fatalError()}
+guard let url = Bundle.main.url(forResource: "input", withExtension: "txt") else { fatalError()}
+//guard let url = Bundle.main.url(forResource: "Day22-example", withExtension: "txt") else {fatalError()}
 
 guard let inputFile = try? String(contentsOf: url).lines else {fatalError()}
 var input = inputFile.split {$0 == "" }.map {Array($0) }
@@ -29,5 +29,8 @@ while !one.isEmpty && !two.isEmpty {
 one
 two
 
+let range = Range(1...two.count).reversed()
+let sol = zip(range, two).reduce(0) { $0 + $1.0 * $1.1 }
 
-print("Solution part one : ")
+
+print("Solution part one : ", sol)
