@@ -1,0 +1,76 @@
+import Foundation
+
+// --- Day 21: Allergen Assessment ---
+
+guard let url = Bundle.main.url(forResource: "input", withExtension: "txt") else { fatalError()}
+//guard let url = Bundle.main.url(forResource: "Day21-example", withExtension: "txt") else {fatalError()}
+
+guard let inputFile = try? String(contentsOf: url).replacingOccurrences(of: "[,)]", with: "", options: .regularExpression).linesNotEmpty else {fatalError()}
+var input = inputFile.map { $0.split(separator: " ").map {String($0) }
+	.split { $0 == "(contains"}}
+	.map { return (ingredients: Set($0[0]),allergens: Set($0[1]) ) }
+input.sort {$0.allergens.count < $1.allergens.count}
+
+//print(input.description)
+
+func removeEverywhere(ingredientFound: String, allergen: String) {
+	for j in 0..<input.count {
+		// when match found - 2 cases - both allergen and ingredient to be removed or
+		if input[j].ingredients.contains(ingredientFound)
+			&& input[j].allergens.contains(allergen) {
+			print("removing input[\(j)]", ingredientFound, allergen)
+			input[j].ingredients.remove(ingredientFound)!
+			input[j].allergens.remove(allergen)!
+			print("removed" )
+			// or allergen is not listed so I remove only the ingredient
+		} else if input[j].ingredients.contains(ingredientFound) {
+			print("removing input[\(j)]", ingredientFound)
+			input[j].ingredients.remove(ingredientFound)!
+		}
+	}
+}
+
+// my elements are sorted for max probability to get a single allergen in element
+var k = -1
+while !input.allSatisfy({ $0.allergens.isEmpty })   {
+	// looping until all ingredients corresponding to our allergens are found
+	k = k < input.count - 1 ? k + 1 : 0
+	let currentElement = input[k]
+	// I am looking for that element which has one allergen only
+	if currentElement.allergens.isEmpty { continue }
+	if currentElement.allergens.count > 1 { continue }
+	// this one is already a match!
+	if currentElement.ingredients.count == 1 && currentElement.allergens.count == 1 {
+		print("1-1 match = remove everywhere ")
+		removeEverywhere(ingredientFound: currentElement.ingredients.first!, allergen: currentElement.allergens.first!)
+		k = -1 // restart because some elements before might have gotten freed up
+		continue
+	}
+	// element with one allergen and many ingredients. need to check intersections! loop from the next element to end and look for an intersection. Then take the results of that intersection and intersect with the ingredients of the next element matching the allergen and hope to get the 1-1 match
+	if currentElement.allergens.count == 1 {
+		var mainIntersecting: Set<String> = currentElement.ingredients // init
+		for i in 0..<input.count where i != k {
+			//look for an intersection and if found remove the ingredient and element
+			let currentAllergen = currentElement.allergens.first!
+			print("looking for allergen ", currentAllergen)
+			let elementToCheck = input[i]
+			if elementToCheck.allergens.contains(currentAllergen)  {
+				print("this contains : \(currentAllergen) ")
+				mainIntersecting = elementToCheck.ingredients.intersection(mainIntersecting)
+				print("ingredientsIntersecting ", mainIntersecting)
+			}
+			// this is a case of 1-1 match ingredients and allergen!
+			if mainIntersecting.count == 1 {
+				print("mainIntersecting.count == 1  ---------------------------------")
+				removeEverywhere(ingredientFound: mainIntersecting.first!, allergen: currentElement.allergens.first!)
+				break
+			}
+		}
+	}
+}
+
+let solutionPartOne = input.reduce(0) { $0 + $1.ingredients.count}
+
+print("Solution part one : ", solutionPartOne)
+
+
