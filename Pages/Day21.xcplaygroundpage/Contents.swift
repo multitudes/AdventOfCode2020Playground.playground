@@ -15,13 +15,14 @@ input.sort {$0.allergens.count < $1.allergens.count}
 
 func removeEverywhere(ingredientFound: String, allergen: String) {
 	for j in 0..<input.count {
+		// when match found - 2 cases - both allergen and ingredient to be removed or
 		if input[j].ingredients.contains(ingredientFound)
 			&& input[j].allergens.contains(allergen) {
 			print("removing input[\(j)]", ingredientFound, allergen)
 			input[j].ingredients.remove(ingredientFound)!
 			input[j].allergens.remove(allergen)!
 			print("removed" )
-			//print(element.ingredients)
+			// or allergen is not listed so I remove only the ingredient
 		} else if input[j].ingredients.contains(ingredientFound) {
 			print("removing input[\(j)]", ingredientFound)
 			input[j].ingredients.remove(ingredientFound)!
@@ -49,15 +50,13 @@ while !input.allSatisfy({ $0.allergens.isEmpty })   {
 	if currentElement.allergens.count == 1 {
 		var mainIntersecting: Set<String> = currentElement.ingredients // init
 		for i in 0..<input.count where i != k {
-
 			//look for an intersection and if found remove the ingredient and element
-			// check if allergen in sorted list. I know it cannot be empty and it will be one!
 			let currentAllergen = currentElement.allergens.first!
 			print("looking for allergen ", currentAllergen)
-			let element = input[i]
-			if element.allergens.contains(currentAllergen)  {
+			let elementToCheck = input[i]
+			if elementToCheck.allergens.contains(currentAllergen)  {
 				print("this contains : \(currentAllergen) ")
-				mainIntersecting = element.ingredients.intersection(mainIntersecting)
+				mainIntersecting = elementToCheck.ingredients.intersection(mainIntersecting)
 				print("ingredientsIntersecting ", mainIntersecting)
 			}
 			// this is a case of 1-1 match ingredients and allergen!
@@ -66,19 +65,11 @@ while !input.allSatisfy({ $0.allergens.isEmpty })   {
 				removeEverywhere(ingredientFound: mainIntersecting.first!, allergen: currentElement.allergens.first!)
 				break
 			}
-
 		}
 	}
 }
 
 let solutionPartOne = input.reduce(0) { $0 + $1.ingredients.count}
-
-
-
-
-print(input.description)
-// not 2021 too low - 2086 too low
-
 
 print("Solution part one : ", solutionPartOne)
 
