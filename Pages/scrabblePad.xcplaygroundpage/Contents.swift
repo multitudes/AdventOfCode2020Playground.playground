@@ -167,23 +167,30 @@ import Foundation
 //	}
 //}
 //
-func compute(_ string: String) -> Int {
-	let exp: NSExpression = NSExpression(format: string)
-	return exp.expressionValue(with:nil, context: nil) as! Int
-}
+//func compute(_ string: String) -> Int {
+//	let exp: NSExpression = NSExpression(format: string)
+//	return exp.expressionValue(with:nil, context: nil) as! Int
+//}
+//
+//
+//var expression = ["d", "d", "e"]
+//let express = expression[1...2]
+//expression
+//let str = "(5 * (4 - 2))"
+//compute(str)
+//
+//
+//
+//let stringWithMathematicalOperation: String = "5 + 5 * 5" // Example
+//let exp: NSExpression = NSExpression(format: stringWithMathematicalOperation)
+//let result: Int = exp.expressionValue(with:nil, context: nil) as! Int
+//
+//var s = "hello"
+//s = "(" + s
 
 
-var expression = ["d", "d", "e"]
-let express = expression[1...2]
-expression
-let str = "(5 * (4 - 2))"
-compute(str)
-
-
-
-let stringWithMathematicalOperation: String = "5 + 5 * 5" // Example
-let exp: NSExpression = NSExpression(format: stringWithMathematicalOperation)
-let result: Int = exp.expressionValue(with:nil, context: nil) as! Int
-
-var s = "hello"
-s = "(" + s
+var mainIntersecting: Set<String> = ["a","b","c","d"]
+let element = ("a", "dairy")
+	//look for an intersection and if found remove the ingredient and element
+	mainIntersecting = mainIntersecting.intersection(Set(["a"]))
+	print("mainIntersecting ", mainIntersecting)
