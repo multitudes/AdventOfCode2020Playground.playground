@@ -6,7 +6,6 @@ guard let url = Bundle.main.url(forResource: "input", withExtension: "txt") else
 
 //guard let url = Bundle.main.url(forResource: "Day22-exampleRecursive", withExtension: "txt") else { fatalError()}
 //guard let url = Bundle.main.url(forResource: "Day22-example", withExtension: "txt") else {fatalError()}
-
 guard let inputFile = try? String(contentsOf: url).lines else {fatalError()}
 var input = inputFile.split {$0 == "" }.map {Array($0) }
 input.count
@@ -66,7 +65,9 @@ func playGame(deck1 one: [Int], deck2 two: [Int]) -> Int {
 		// check if recursion
 		if topOne <= oneCopy.count && topTwo <= twoCopy.count {
 			print("Recursive Combat")
+			game += 1
 			let gameResult = playGame(deck1: Array(oneCopy.prefix(topOne)), deck2: Array(twoCopy.prefix(topTwo)))
+
 			if gameResult == 1 {
 				oneCopy.append(contentsOf: [topOne, topTwo])
 			} else {
@@ -83,7 +84,7 @@ func playGame(deck1 one: [Int], deck2 two: [Int]) -> Int {
 		}
 	}
 	print("...anyway, back to previous game ")
-
+	game -= 1
 	if twoCopy.isEmpty || gamesEnd {
 		winningDeck = oneCopy
 		return 1
