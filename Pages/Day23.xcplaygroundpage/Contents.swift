@@ -2,35 +2,88 @@ import Foundation
 
 // --- Day 23: Crab Cups ---
 
-guard let url = Bundle.main.url(forResource: "input", withExtension: "txt") else { fatalError()}
-//guard let url = Bundle.main.url(forResource: "Day22-example", withExtension: "txt") else {fatalError()}
 
-guard let inputFile = try? String(contentsOf: url).lines else {fatalError()}
-var input = inputFile.split {$0 == "" }.map {Array($0) }
-input.count
+var input = "389125467"  // test!
+//var input = 872495136
 print(input)
 
-// init
-var one = input[0].compactMap {Int($0)}
-var two = input[1].compactMap {Int($0)}
-
-while !one.isEmpty && !two.isEmpty {
-	func playRound() {
-		let topOne = one.remove(at: 0); let topTwo = two.remove(at: 0)
-		if topOne > topTwo {
-			one.append(contentsOf: [topOne, topTwo])
-		} else {
-			two.append(contentsOf: [topTwo, topOne])
-		}
+class Cup: Equatable {
+	static func == (lhs: Cup, rhs: Cup) -> Bool {
+		lhs.label == rhs.label
 	}
-	playRound()
+
+	var label: Int
+	init(label: Int) {
+		self.label = label
+	}
+	var next: Cup?
+	var previous: Cup?
 }
 
-one
-two
+class Cups {
+	var currentCup: Cup? = Cup(label: 0)
+	var destination: Cup? = Cup(label: 0)
+	var tail: Cup?
 
-let range = Range(1...two.count).reversed()
-let sol = zip(range, two).reduce(0) { $0 + $1.0 * $1.1 }
+	//var threeCups: Cups
+	init() {
+
+	}
+
+	public func move() {
+
+	}
+
+	public func append(value: Int) {
+		let newCup = Cup(label: value)
+		if let lastCup = tail {
+			newCup.previous = lastCup
+			lastCup.next = newCup
+		} else {
+			currentCup = newCup
+		}
+		tail = newCup
+	}
+}
+
+let inputLabels = Array(input.map {Int(String($0))!})
+print(inputLabels)
+
+var game = Cups()
+for i in 0..<inputLabels.count {
+	print("value: \(inputLabels[i]) ")
+	game.append(value: inputLabels[i])
+}
+game.tail?.next = game.currentCup
+game.currentCup?.previous = game.tail
 
 
-print("Solution part one : ", sol)
+game.currentCup?.label
+game.tail?.label
+game.tail?.next?.label
+
+
+var cup = game.currentCup?.label
+
+var threeCups = Cups()
+var next = game.currentCup?.next
+threeCups.append(value: next!.label)
+next = next!.next
+threeCups.append(value: next!.label)
+next = next!.next
+threeCups.append(value: next!.label)
+next = next!.next
+threeCups.currentCup?.label //8
+threeCups.tail?.label //1
+
+game.currentCup?.next = next?.next
+var currentLabel = game.currentCup!.label
+var i = 1
+while next != game.tail {
+	if next?.label == currentLabel - i {
+		game.destination = next
+		break
+	}
+	print(next!.label)
+}
+game.destination?.label
