@@ -40,10 +40,11 @@ var two = input[1].compactMap {Int($0)}
 
 // start new game
 var game = 0
-func playGame(deck1 one: [Int], deck2 two: [Int]) -> (winner: Int, winningDeck: [Int]) {
+var winningDeck: [Int] = []
+func playGame(deck1 one: [Int], deck2 two: [Int]) -> Int {
 	var oneCopy = one; var twoCopy = two; game += 1
 	var currentGameHistory: Set<String> = [] //init
-
+	var gamesEnd = false
 
 	while !oneCopy.isEmpty && !twoCopy.isEmpty {
 		print("/n-----------Game \(game)----------")
@@ -54,11 +55,11 @@ func playGame(deck1 one: [Int], deck2 two: [Int]) -> (winner: Int, winningDeck: 
 		let historyHash = (oneCopy.map {String($0)}.joined(separator: ".") + "-"
 			+ twoCopy.map {String($0)}.joined(separator: "."))
 		if !currentGameHistory.insert(historyHash).inserted {
-			print("Cards in history! game won by player one!")
-			//print(historyHash)
-			print("winningDeck: ",oneCopy )
-			return (winner: 1, winningDeck: oneCopy)
-		} else {print("cards inserted in history")}
+			print("Cards in history! this game won by player one!")
+			gamesEnd = true; break
+		} else {
+			//print("cards inserted in history")
+		}
 
 		let topOne = oneCopy.remove(at: 0); let topTwo = twoCopy.remove(at: 0)
 
@@ -66,7 +67,7 @@ func playGame(deck1 one: [Int], deck2 two: [Int]) -> (winner: Int, winningDeck: 
 		if topOne <= oneCopy.count && topTwo <= twoCopy.count {
 			print("Recursive Combat")
 			let gameResult = playGame(deck1: Array(oneCopy.prefix(topOne)), deck2: Array(twoCopy.prefix(topTwo)))
-			if gameResult.winner == 1 {
+			if gameResult == 1 {
 				oneCopy.append(contentsOf: [topOne, topTwo])
 			} else {
 				twoCopy.append(contentsOf: [topTwo, topOne])
@@ -83,22 +84,25 @@ func playGame(deck1 one: [Int], deck2 two: [Int]) -> (winner: Int, winningDeck: 
 	}
 	print("...anyway, back to previous game ")
 
-	if twoCopy.isEmpty {
-		return (winner: 1, winningDeck: oneCopy)
+	if twoCopy.isEmpty || gamesEnd {
+		winningDeck = oneCopy
+		return 1
 	} else {
-		return (winner: 2, winningDeck: twoCopy) }
+		winningDeck = twoCopy
+		return 2
+	}
 }
 
 let result = playGame(deck1: one, deck2: two)
-result.winner
-print(result.winningDeck)
-let range = Range(1...result.winningDeck.count).reversed()
-let score = zip(range, result.winningDeck).reduce(0) { $0 + $1.0 * $1.1 }
+result
+print(winningDeck)
+let range = Range(1...winningDeck.count).reversed()
+let score = zip(range, winningDeck).reduce(0) { $0 + $1.0 * $1.1 }
 
 print("score: ",score)
 // 8017 not
 
-
-let range2 = Range(1...6).reversed()
-let score2 = zip(range2, [49, 22, 38, 3, 36, 24]).reduce(0) { $0 + $1.0 * $1.1 }
-score2
+//
+//let range2 = Range(1...6).reversed()
+//let score2 = zip(range2, [49, 22, 38, 3, 36, 24]).reduce(0) { $0 + $1.0 * $1.1 }
+//score2
