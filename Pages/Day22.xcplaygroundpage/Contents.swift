@@ -39,30 +39,26 @@ var two = input[1].compactMap {Int($0)}
 
 
 // start new game
-var currentGameHistory: Set<String> = [] //init
-
-func playGame(deck1 one: [Int], deck2 two: [Int]) -> (winner: Int, gamesEnded: Bool, winningDeck: [Int]) {
-	var gamesEnd = false
-	var oneCopy = one; var twoCopy = two
+var game = 0
+func playGame(deck1 one: [Int], deck2 two: [Int]) -> (winner: Int, winningDeck: [Int]) {
+	var oneCopy = one; var twoCopy = two; game += 1
 	var currentGameHistory: Set<String> = [] //init
 
+
 	while !oneCopy.isEmpty && !twoCopy.isEmpty {
+		print("/n-----------Game \(game)----------")
 		print("Player 1's deck: ", oneCopy)
 		print("Player 2's deck: ", twoCopy)
-		//print("currentGameHistory ", currentGameHistory)
 
 		// check history!
 		let historyHash = (oneCopy.map {String($0)}.joined(separator: ".") + "-"
 			+ twoCopy.map {String($0)}.joined(separator: "."))
-
 		if !currentGameHistory.insert(historyHash).inserted {
 			print("Cards in history! game won by player one!")
-			print(historyHash)
+			//print(historyHash)
 			print("winningDeck: ",oneCopy )
-			gamesEnd = true
-			break
+			return (winner: 1, winningDeck: oneCopy)
 		} else {print("cards inserted in history")}
-
 
 		let topOne = oneCopy.remove(at: 0); let topTwo = twoCopy.remove(at: 0)
 
@@ -70,11 +66,6 @@ func playGame(deck1 one: [Int], deck2 two: [Int]) -> (winner: Int, gamesEnded: B
 		if topOne <= oneCopy.count && topTwo <= twoCopy.count {
 			print("Recursive Combat")
 			let gameResult = playGame(deck1: Array(oneCopy.prefix(topOne)), deck2: Array(twoCopy.prefix(topTwo)))
-			if gameResult.gamesEnded {
-				gamesEnd = true
-				oneCopy.insert(topOne, at: 0)
-				break
-				}
 			if gameResult.winner == 1 {
 				oneCopy.append(contentsOf: [topOne, topTwo])
 			} else {
@@ -92,10 +83,10 @@ func playGame(deck1 one: [Int], deck2 two: [Int]) -> (winner: Int, gamesEnded: B
 	}
 	print("...anyway, back to previous game ")
 
-	if twoCopy.isEmpty || gamesEnd {
-		return (winner: 1, gamesEnded: gamesEnd, winningDeck: oneCopy)
+	if twoCopy.isEmpty {
+		return (winner: 1, winningDeck: oneCopy)
 	} else {
-		return (winner: 2, gamesEnded: false, winningDeck: twoCopy) }
+		return (winner: 2, winningDeck: twoCopy) }
 }
 
 let result = playGame(deck1: one, deck2: two)
