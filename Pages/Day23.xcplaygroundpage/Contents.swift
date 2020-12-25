@@ -139,31 +139,7 @@ func move() {
 			}
 		next = next!.next
 	}
-//	// if not found then I decrease
-//	var i = 1
-//	var highest = 0
-//	while true {
-//		if next == game.currentCup { i += 1}
-//		if next!.label > highest {highest = next!.label}
-//		if next!.label == currentLabel - i {
-//			print("new destination \(next!.label)")
-//			game.destination = next
-//			break
-//		}
-//		next = next?.next
-//		if (currentLabel - i) <= 0  {
-//			while true {
-//				if next!.label == highest  {
-//					game.destination = next
-//					break
-//				}
-//				next = next!.next
-//				//			print(next!.label)
-//			}
-//			print("new destination \(game.destination!.label)")
-//			break
-//		}
-//	}
+
 	// inserting my threeCups list
 	let cut = game.destination!.next
 	//print("inserting between \(game.destination!.label) and \(cut!.label)")
