@@ -91,6 +91,11 @@ func move() {
 	game.tail?.label
 	game.tail?.next?.label
 
+	var pickedCupsArray: [Int] = []
+	for i in 1...4 {
+		pickedCupsArray.append(game.cupAt(index: i)!.label)
+	}
+	pickedCupsArray
 	let threeCups = Cups()
 	var next = game.currentCup?.next
 	print("pick up: \(next!.label) ", terminator: "")
