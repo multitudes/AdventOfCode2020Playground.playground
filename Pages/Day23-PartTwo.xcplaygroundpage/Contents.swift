@@ -1,6 +1,10 @@
 import Foundation
 
-// --- Day 23: Crab Cups ---
+// --- Day 23: Crab Cups - Part Two ---
+
+//The crab is going to hide your stars - one each - under the two cups that will end up immediately clockwise of cup 1. You can have them if you predict what the labels on those cups will be when the crab is finished.
+
+//In the above example (389125467), this would be 934001 and then 159792; multiplying these together produces 149245887792.
 
 var input = "389125467"  // test!
 //var input = "872495136"
@@ -28,8 +32,11 @@ class Cups: CustomStringConvertible {
 	var cupCount = 0
 
 	init(input: [Int]) {
-		for ii in 0..<input.count {
-			self.append(value: input[ii])
+		for i in 0..<input.count {
+			self.append(value: input[i])
+		}
+		for i in (input.count)...1_000 {
+			self.append(value: i )
 		}
 	}
 
@@ -65,7 +72,6 @@ class Cups: CustomStringConvertible {
 			currentCup = newCup
 		}
 		tail = newCup
-
 	}
 
 	public func contains(_ label: Int) -> Bool {
@@ -93,13 +99,13 @@ var game = Cups(input: inputLabels)
 game.tail?.next = game.currentCup
 game.currentCup?.previous = game.tail
 
-
 func move() {
 	print("currentCup \(game.currentCup!.label)")
-//	game.currentCup?.label
-//	game.tail?.label
-//	game.tail?.next?.label
-//	game.cupAt(index: 0)!.label // currentcup
+	game.currentCup?.label
+	game.tail?.label
+	game.tail?.next?.label
+	game.cupAt(index: 0)!.label // currentcup
+	game.cupAt(index: 10)!.label // currentcup
 	var pickedCupsArray: [Int] = []
 	for i in 1...3 {
 		pickedCupsArray.append(game.cupAt(index: i)!.label)
@@ -122,10 +128,10 @@ func move() {
 	// first I look in the cups I have from next to the current one
 	while true {
 		// check my destination is more than zero or I start wrapping the highest
-		if currentLabelMinusOne == 0 { currentLabelMinusOne = 9 }
+		if currentLabelMinusOne == 0 { currentLabelMinusOne = 1_000 }
 		print("looking for", currentLabelMinusOne, "and next is ", next.label)
 		// check if currentLabelMinusOne is in picked up cups if so decrease
-		if threeCups.contains(currentLabelMinusOne) {
+		if threeCups.cupAt(index: 0)?.label == currentLabelMinusOne || threeCups.cupAt(index: 1)?.label == currentLabelMinusOne || threeCups.cupAt(index: 2)?.label == currentLabelMinusOne {
 			print("contained in picked cups!")
 			// if found then I decrease
 			currentLabelMinusOne -= 1; continue
@@ -160,16 +166,9 @@ func move() {
 for i in 0..<10 {
 print("-- move \(i + 1) --")
 move()
-	print(game.description)
 }
-//
-var solution = game.description + game.description
-let startIndex = solution.startIndex
-let i = solution.firstIndex(of: "1")!
 
-solution.removeSubrange(startIndex...i)
-let k = solution.lastIndex(of: "1")!
-solution.removeSubrange(k...)
+let one = game
+
+var solution = 0
 print("solution ", solution)
-//
-//game.cupAt(index: 20)?.label

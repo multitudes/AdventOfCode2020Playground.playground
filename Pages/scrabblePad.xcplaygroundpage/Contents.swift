@@ -188,9 +188,94 @@ import Foundation
 //var s = "hello"
 //s = "(" + s
 
+//
+//var mainIntersecting: Set<String> = ["a","b","c","d"]
+//let element = ("a", "dairy")
+//	//look for an intersection and if found remove the ingredient and element
+//	mainIntersecting = mainIntersecting.intersection(Set(["a"]))
+//	print("mainIntersecting ", mainIntersecting)
 
-var mainIntersecting: Set<String> = ["a","b","c","d"]
-let element = ("a", "dairy")
-	//look for an intersection and if found remove the ingredient and element
-	mainIntersecting = mainIntersecting.intersection(Set(["a"]))
-	print("mainIntersecting ", mainIntersecting)
+var input = "389125467"  // test!
+//var input = "872495136"
+print(input)
+let inputLabels = Array(input.map {Int(String($0))!})
+print(inputLabels)
+
+class Cup: Equatable {
+	static func == (lhs: Cup, rhs: Cup) -> Bool {
+		lhs.label == rhs.label
+	}
+	var label: Int
+	init(label: Int) {
+		self.label = label
+	}
+	var next: Cup?
+	var previous: Cup?
+}
+
+class Cups: CustomStringConvertible {
+	var currentCup: Cup?
+	var destination: Cup?
+	var tail: Cup?
+	var cupOne: Cup?
+	var cupCount = 0
+
+	init(input: [Int]) {
+		for ii in 0..<input.count {
+			self.append(value: inputLabels[ii])
+		}
+	}
+
+	public func move() {
+	}
+
+	public func cupAt(index: Int) -> Cup? {
+	  // index has to be bigger than zero
+	  if index >= 0 {
+		// I start with head, my current cup
+		var cup = currentCup
+		var i = index
+		// decrementing of i steps until I get
+		while cup != nil {
+		  if i == 0 {
+			print("return cup at \(index) ")
+			return cup }
+		  i -= 1
+		  cup = cup!.next
+		}
+	  }
+		// not found
+	  return nil
+	}
+
+	public func append(value: Int) {
+		cupCount += 1
+		let newCup = Cup(label: value)
+		if let lastCup = tail {
+			newCup.previous = lastCup
+			lastCup.next = newCup
+		} else {
+			currentCup = newCup
+		}
+		tail = newCup
+
+	}
+	public var description: String {
+		var text = ""
+		var node = currentCup
+		for _ in 0..<cupCount {
+			text += "\(node!.label)"
+			node = node!.next
+		}
+		return text
+	}
+}
+//
+//var game = Cups(input: inputLabels)
+//
+//var pickedCupsArray: [Int] = []
+//for i in 1...3 {
+//	pickedCupsArray.append(game.cupAt(index: i)!.label)
+//}
+//pickedCupsArray
+var threeCups = Cups(input: [8, 9, 1])
