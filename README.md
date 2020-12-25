@@ -921,5 +921,16 @@ If I paste this regex in Lea Verou web page regex playground it works!
 https://projects.verou.me/regexplained/
 And they are so fast! How do they accomplish this? 🤔
 
-
 https://projects.verou.me/regexplained/
+
+## Day20
+
+## Day21
+
+## Day22
+The first part was refreshingly easy. The second part involved recursion and that was slightly trickier. I misread the challenge description so I went through a few iteerations of possible solution for part two before realizing that if the game was already in history then the player 1 would win only that game, not the whole game of course...
+
+# Day23 
+Again playing with the little crab. part one took a moment to get used to linked lists again. Very interesting challenge actually, because it becomesa circular list!
+
+
