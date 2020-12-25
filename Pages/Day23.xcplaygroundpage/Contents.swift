@@ -25,8 +25,15 @@ class Cups: CustomStringConvertible {
 	var cupOne: Cup?
 	var cupCount = 0
 
-	init() {}
-
+	init(input: String) {
+		let inputLabels = Array(input.map {Int(String($0))!})
+		print(inputLabels)
+		for i in 0..<inputLabels.count {
+			append(value: inputLabels[i])
+		}
+	}
+	init() {
+	}
 	public func move() {
 	}
 
@@ -72,13 +79,8 @@ class Cups: CustomStringConvertible {
 	}
 }
 
-let inputLabels = Array(input.map {Int(String($0))!})
-print(inputLabels)
+var game = Cups(input: input)
 
-var game = Cups()
-for i in 0..<inputLabels.count {
-	game.append(value: inputLabels[i])
-}
 game.tail?.next = game.currentCup
 game.currentCup?.previous = game.tail
 
